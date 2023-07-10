@@ -1,8 +1,8 @@
 import React from 'react'
 
-const TodoCount = () => {
+const TodoCount = ({ count }) => {
   return (
-    <div>TodoCount</div>
+    <div>任务数量：{count}</div>
   )
 }
 
