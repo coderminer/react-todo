@@ -16,13 +16,13 @@ function App() {
 
   const createTodo = () => {
     if (!userInput) return
-    setTodos([
+    setTodos((preTodos) => [
       {
         id: uuid(),
         title: `${todos.length + 1} - ${userInput}`,
         completed: false
       },
-      ...todos
+      ...preTodos
     ])
     setCount(todos.length)
     setUserInput('')
@@ -52,13 +52,16 @@ function App() {
   }, [todos, filter])
 
   const handleDelete = (todo) => {
-    setTodos(todos.filter(item => item.id !== todo.id))
+    setTodos((preTodos) => preTodos.filter(item => item.id !== todo.id))
   }
 
   const handleComplete = (todo) => {
-    setTodos(todos.map(item => {
+    setTodos((preTodos) => preTodos.map(item => {
       if (item.id === todo.id) {
-        item.completed = !item.completed
+        return {
+          ...item,
+          completed: !item.completed
+        }
       }
       return item
     }))
