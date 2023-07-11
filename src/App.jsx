@@ -1,12 +1,23 @@
-import { useMemo } from 'react'
 import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
+
+const applyFilter = (todos, filter) => {
+  switch(filter) {
+    case 'all':
+      return todos
+    case 'completed':
+      return todos.filter(todo => todo.completed)
+    case 'uncompleted':
+      return todos.filter(todo => !todo.completed)
+    default:
+      return todos
+  }
+}
 
 function App() {
   const [todos, setTodos] = useState([])
   const [userInput, setUserInput] = useState('')
   const [filter, setFilter] = useState('all')
-  const [count, setCount] = useState(0)
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -24,32 +35,10 @@ function App() {
       },
       ...preTodos
     ])
-    setCount(todos.length)
     setUserInput('')
   }
 
-  const filterTodos = useMemo(() => {
-    let result;
-    switch(filter) {
-      case 'all':
-        result = todos.filter(todo => todo != null)
-        setCount(result.length)
-        return result
-      case 'completed':
-        result =  todos.filter(todo => todo.completed)
-        setCount(result.length)
-        return result
-      case 'uncompleted':
-        result = todos.filter(todo => !todo.completed)
-        setCount(result.length)
-        return result
-      default:
-        result = todos.filter(todo => todo != null)
-        setCount(result.length)
-        return result
-    }
-    
-  }, [todos, filter])
+  const filterTodos = applyFilter(todos, filter)
 
   const handleDelete = (todo) => {
     setTodos((preTodos) => preTodos.filter(item => item.id !== todo.id))
@@ -69,7 +58,6 @@ function App() {
 
   return (
     <div style={{ maxWidth: '400px', border: '1px solid grey', padding: '20px'}}>
-      <div>任务数量：{count}</div>
       <div>
         <input type="text" placeholder='请输入信息'
           style={{width: '100%'}}
