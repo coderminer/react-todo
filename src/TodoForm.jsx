@@ -1,12 +1,16 @@
 import React from 'react'
 import { useState } from 'react'
+import {TodoContext} from './context/TodoContext'
+import { useContext } from 'react'
+import { v4 as uuid } from 'uuid'
 
-const TodoForm = ({ createTodo }) => {
+const TodoForm = () => {
   const [userInput, setUserInput] = useState('')
+  const { addTodo } = useContext(TodoContext)
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      createTodo(userInput)
+      addTodo(userInput)
       setUserInput('')
     }
   }
