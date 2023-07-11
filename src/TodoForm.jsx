@@ -1,16 +1,16 @@
 import React from 'react'
 import { useState } from 'react'
-import {TodoContext} from './context/TodoContext'
-import { useContext } from 'react'
-import { v4 as uuid } from 'uuid'
+import { useDispatch } from 'react-redux'
+
+import { addTodo } from './store/todo/todoSlice'
 
 const TodoForm = () => {
+  const dispatch = useDispatch()
   const [userInput, setUserInput] = useState('')
-  const { addTodo } = useContext(TodoContext)
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      addTodo(userInput)
+      dispatch(addTodo(userInput)) 
       setUserInput('')
     }
   }

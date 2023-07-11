@@ -1,17 +1,16 @@
 import React from 'react'
 import TodoListItem from './TodoListItem'
-import { useContext } from 'react'
-import {TodoContext} from './context/TodoContext'
-
+import { useSelector } from 'react-redux'
+import { FILTER_ALL, FILTER_COMPLETE, FILTER_UNCOMPLETE } from './Constant'
 
 const applyFilter = (state) => {
   const { todos, filter } = state
   switch(filter) {
-    case 'all':
+    case FILTER_ALL:
       return todos
-    case 'complete':
+    case FILTER_COMPLETE:
       return todos.filter(todo => todo.completed)
-    case 'uncomplete':
+    case FILTER_UNCOMPLETE:
       return todos.filter(todo => !todo.completed)
     default:
       return todos
@@ -19,7 +18,7 @@ const applyFilter = (state) => {
 }
 
 const TodoList = () => {
-  const {state} = useContext(TodoContext)
+  const state = useSelector((state) => state.todo)
   const filterTodos = applyFilter(state)
 
   return (
